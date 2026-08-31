@@ -7,41 +7,40 @@
 <title>Clouds For Cover</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    background: #0d0d12;
+    background: #0b0b0f;
     color: white;
     font-family: Arial, sans-serif;
+    padding-bottom: 80px;
 }
 
 header {
     text-align: center;
-    padding: 30px 20px 20px;
+    padding: 25px 15px;
     border-bottom: 1px solid #292932;
 }
 
 .logo {
-    font-size: 26px;
+    font-size: 25px;
     font-weight: bold;
     letter-spacing: 2px;
 }
 
-.subtitle {
-    color: #888;
+.sub {
     font-size: 12px;
-    margin-top: 6px;
+    color: #888;
+    margin-top: 5px;
 }
 
 main {
     max-width: 700px;
     margin: auto;
     padding: 20px;
-    padding-bottom: 100px;
 }
 
 .page {
@@ -53,21 +52,21 @@ main {
 }
 
 h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
+    margin-top: 0;
 }
 
 .card {
-    background: #17171e;
+    background: #15151c;
     border: 1px solid #292932;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 12px;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
     cursor: pointer;
+    transition: 0.15s;
 }
 
 .card:hover {
-    background: #1d1d25;
+    background: #1d1d26;
 }
 
 .card-title {
@@ -76,244 +75,534 @@ h1 {
 }
 
 .card-subtitle {
-    color: #888;
-    font-size: 13px;
-    margin-top: 6px;
+    color: #999;
+    margin-top: 7px;
+    font-size: 14px;
 }
 
-.bottom-nav {
+.song-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.position {
+    color: #888;
+    min-width: 30px;
+}
+
+.back {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.detail {
+    background: #15151c;
+    border: 1px solid #292932;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.detail h2 {
+    margin-top: 0;
+}
+
+.lyrics {
+    white-space: pre-wrap;
+    line-height: 1.7;
+    color: #ddd;
+}
+
+.info-label {
+    color: #888;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.button {
+    display: inline-block;
+    background: #292932;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin: 5px 5px 5px 0;
+}
+
+nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-
-    background: #121218;
+    background: #111116;
     border-top: 1px solid #292932;
-
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    padding: 10px 5px;
+    z-index: 100;
 }
 
-.bottom-nav button {
-    flex: 1;
-    max-width: 230px;
-
+nav button {
     background: none;
     border: none;
-
-    color: #888;
-
-    padding: 12px 5px 14px;
-
-    font-size: 12px;
+    color: #aaa;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 8px;
 }
 
-.bottom-nav button.active {
+nav button.active {
     color: white;
+    font-weight: bold;
 }
 
-.icon {
-    display: block;
-    font-size: 22px;
-    margin-bottom: 4px;
+.loading {
+    color: #888;
+    text-align: center;
+    padding: 30px;
 }
 
+.error {
+    background: #24151a;
+    border: 1px solid #63313b;
+    padding: 15px;
+    border-radius: 10px;
+    color: #ffb5bd;
+}
+
+.small {
+    font-size: 13px;
+    color: #888;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-
-    <div class="logo">
-        CLOUDS FOR COVER
-    </div>
-
-    <div class="subtitle">
-        BAND APP
-    </div>
-
+    <div class="logo">CLOUDS FOR COVER</div>
+    <div class="sub">Band App</div>
 </header>
-
 
 <main>
 
-    <!-- SET LISTS -->
+    <!-- SONGS -->
+    <section id="songs" class="page active">
+        <h1>Songs</h1>
+        <div id="songsContainer" class="loading">
+            Loading songs...
+        </div>
+    </section>
 
-    <section id="sets" class="page active">
 
+    <!-- SETS -->
+    <section id="sets" class="page">
         <h1>Set Lists</h1>
-
-   <div id="setListContainer">
-
-    <div class="card">
-        Loading set lists...
-    </div>
-
-</div>
-
+        <div id="setsContainer" class="loading">
+            Loading set lists...
+        </div>
     </section>
 
 
     <!-- GIGS -->
-
     <section id="gigs" class="page">
-
         <h1>Gigs</h1>
-
-        <div class="card">
-
-            <div class="card-title">
-                Clouds Collective
-            </div>
-
-            <div class="card-subtitle">
-                SixTrees • 01/10/2026
-            </div>
-
+        <div id="gigsContainer" class="loading">
+            Loading gigs...
         </div>
-
     </section>
 
 
-    <!-- SONGS -->
+    <!-- SONG DETAIL -->
+    <section id="songDetail" class="page">
+        <div class="back" onclick="showPage('songs')">← Back to Songs</div>
+        <div id="songDetailContainer"></div>
+    </section>
 
-    <section id="songs" class="page">
 
-        <h1>Songs</h1>
-
-        <div class="card">
-
-            <div class="card-title">
-                All Falls Down
-            </div>
-
-            <div class="card-subtitle">
-                Song
-            </div>
-
-        </div>
-
+    <!-- SET DETAIL -->
+    <section id="setDetail" class="page">
+        <div class="back" onclick="showPage('sets')">← Back to Sets</div>
+        <div id="setDetailContainer"></div>
     </section>
 
 </main>
 
 
-<!-- BOTTOM NAVIGATION -->
-
-<nav class="bottom-nav">
-
-    <button
-        class="active"
-        onclick="showPage('sets', this)"
-    >
-
-        <span class="icon">📋</span>
-
-        Set Lists
-
+<nav>
+    <button id="navSongs" class="active" onclick="showPage('songs')">
+        🎵 Songs
     </button>
 
-
-    <button
-        onclick="showPage('gigs', this)"
-    >
-
-        <span class="icon">🎤</span>
-
-        Gigs
-
+    <button id="navSets" onclick="showPage('sets')">
+        📋 Sets
     </button>
 
-
-    <button
-        onclick="showPage('songs', this)"
-    >
-
-        <span class="icon">🎵</span>
-
-        Songs
-
+    <button id="navGigs" onclick="showPage('gigs')">
+        🎤 Gigs
     </button>
-
 </nav>
 
 
 <script>
 
-function showPage(pageId, button) {
+/* =========================================================
+   GOOGLE SHEET SETTINGS
+   ========================================================= */
 
-    document
-        .querySelectorAll('.page')
-        .forEach(page => {
-            page.classList.remove('active');
-        });
+const PUBLISHED_ID =
+"2PACX-1vRhcJJJ1Qi3FaPH3NAFubdhHOffV3OPBDuEAS-Libsg6zhtsKiAMfJI0Zx-62e7SZmNmr8r-TPF_5KF";
 
-
-    document
-        .getElementById(pageId)
-        .classList.add('active');
+const SONGS_GID = "0";
+const SETS_GID = "1922780266";
+const GIGS_GID = "863108870";
 
 
-    document
-        .querySelectorAll('.bottom-nav button')
-        .forEach(btn => {
-            btn.classList.remove('active');
-        });
+/* =========================================================
+   GOOGLE SHEETS LOADER
+   ========================================================= */
 
+async function getSheet(gid) {
 
-    button.classList.add('active');
+    const url =
+        "https://docs.google.com/spreadsheets/d/e/" +
+        PUBLISHED_ID +
+        "/pub?gid=" +
+        gid +
+        "&single=true&output=csv";
 
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error("Could not load Google Sheet");
+    }
+
+    const text = await response.text();
+
+    return parseCSV(text);
 }
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhcJJJ1Qi3FaPH3NAFubdhHOffV3OPBDuEAS-Libsg6zhtsKiAMfJI0Zx-62e7SZmNmr8r-TPF_5KF/pub?gid=1922780266&output=csv";
-async function loadSetLists() {
 
-    const container = document.getElementById("setListContainer");
+
+/* =========================================================
+   CSV PARSER
+   ========================================================= */
+
+function parseCSV(text) {
+
+    const rows = [];
+    let row = [];
+    let value = "";
+    let insideQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && insideQuotes && next === '"') {
+            value += '"';
+            i++;
+            continue;
+        }
+
+        if (char === '"') {
+            insideQuotes = !insideQuotes;
+            continue;
+        }
+
+        if (char === "," && !insideQuotes) {
+            row.push(value);
+            value = "";
+            continue;
+        }
+
+        if ((char === "\n" || char === "\r") && !insideQuotes) {
+
+            if (char === "\r" && next === "\n") {
+                i++;
+            }
+
+            row.push(value);
+            value = "";
+
+            if (row.some(x => x.trim() !== "")) {
+                rows.push(row);
+            }
+
+            row = [];
+            continue;
+        }
+
+        value += char;
+    }
+
+    if (value !== "" || row.length) {
+        row.push(value);
+
+        if (row.some(x => x.trim() !== "")) {
+            rows.push(row);
+        }
+    }
+
+    if (!rows.length) return [];
+
+    const headers = rows[0].map(h => h.trim());
+
+    return rows.slice(1).map(r => {
+
+        const obj = {};
+
+        headers.forEach((header, index) => {
+            obj[header] = (r[index] || "").trim();
+        });
+
+        return obj;
+    });
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    if (!value) return "";
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   SONGS
+   ========================================================= */
+
+let songs = [];
+
+async function loadSongs() {
+
+    const container = document.getElementById("songsContainer");
 
     try {
 
-        const response = await fetch(SHEET_URL);
+        songs = await getSheet(SONGS_GID);
 
-        if (!response.ok) {
-            throw new Error("Could not load Google Sheet");
+        if (!songs.length) {
+            container.innerHTML = "<div class='small'>No songs found.</div>";
+            return;
         }
 
-        const csv = await response.text();
+        container.innerHTML = "";
 
-        const rows = csv
-            .trim()
-            .split("\n")
-            .map(row => row.split(","));
+        songs.forEach(song => {
 
-        const headers = rows[0].map(h => h.trim().toLowerCase());
+            const card = document.createElement("div");
 
-        const setIndex = headers.indexOf("set");
-        const positionIndex = headers.indexOf("position");
-        const songIndex = headers.indexOf("song");
+            card.className = "card";
 
-        if (setIndex === -1 || songIndex === -1) {
-            throw new Error("Set sheet columns not found");
-        }
+            card.innerHTML = `
+                <div class="card-title">
+                    ${escapeHTML(song["Song Name"])}
+                </div>
 
-        const sets = {};
+                <div class="card-subtitle">
+                    ${escapeHTML(song["Artist"])}
+                </div>
+            `;
 
-        rows.slice(1).forEach(row => {
+            card.onclick = () => openSong(song);
 
-            const setName = row[setIndex]?.trim();
-            const song = row[songIndex]?.trim();
+            container.appendChild(card);
+        });
 
-            if (!setName || !song) return;
+    } catch (error) {
+
+        container.innerHTML = `
+            <div class="error">
+                Couldn't load songs.
+                <br><br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+    }
+}
+
+
+/* =========================================================
+   OPEN SONG
+   ========================================================= */
+
+function openSong(song) {
+
+    const container =
+        document.getElementById("songDetailContainer");
+
+    let html = `
+        <div class="detail">
+
+            <h2>
+                ${escapeHTML(song["Song Name"])}
+            </h2>
+
+            <div class="card-subtitle">
+                ${escapeHTML(song["Artist"])}
+            </div>
+
+        </div>
+    `;
+
+
+    if (song["Lyrics"]) {
+
+        html += `
+            <div class="detail">
+
+                <div class="info-label">
+                    Lyrics
+                </div>
+
+                <div class="lyrics">
+                    ${escapeHTML(song["Lyrics"])}
+                </div>
+
+            </div>
+        `;
+    }
+
+
+    if (song["Audio"]) {
+
+        const audio = convertDriveLink(song["Audio"]);
+
+        html += `
+            <div class="detail">
+
+                <div class="info-label">
+                    Audio
+                </div>
+
+                <audio controls style="width:100%; margin-top:10px;"
+                       src="${escapeHTML(audio)}">
+                </audio>
+
+                <br>
+
+                <a class="button"
+                   href="${escapeHTML(song["Audio"])}"
+                   target="_blank">
+                    Open Audio
+                </a>
+
+            </div>
+        `;
+    }
+
+
+    if (song["Chords"]) {
+
+        html += `
+            <div class="detail">
+
+                <div class="info-label">
+                    Chords
+                </div>
+
+                <div class="lyrics">
+                    ${escapeHTML(song["Chords"])}
+                </div>
+
+            </div>
+        `;
+    }
+
+
+    if (song["Tabs"]) {
+
+        html += `
+            <div class="detail">
+
+                <div class="info-label">
+                    Tabs
+                </div>
+
+                <div class="lyrics">
+                    ${escapeHTML(song["Tabs"])}
+                </div>
+
+            </div>
+        `;
+    }
+
+
+    if (song["Notes"]) {
+
+        html += `
+            <div class="detail">
+
+                <div class="info-label">
+                    Notes
+                </div>
+
+                <div class="lyrics">
+                    ${escapeHTML(song["Notes"])}
+                </div>
+
+            </div>
+        `;
+    }
+
+
+    container.innerHTML = html;
+
+    showPage("songDetail");
+}
+
+
+/* =========================================================
+   SET LISTS
+   ========================================================= */
+
+let sets = {};
+
+async function loadSets() {
+
+    const container =
+        document.getElementById("setsContainer");
+
+    try {
+
+        const rows = await getSheet(SETS_GID);
+
+        sets = {};
+
+        rows.forEach(row => {
+
+            const setName = row["Set"];
+
+            if (!setName) return;
 
             if (!sets[setName]) {
                 sets[setName] = [];
             }
 
             sets[setName].push({
-                position: row[positionIndex]?.trim() || "",
-                song: song
+                position: row["Position"],
+                song: row["Song"]
             });
 
         });
+
 
         container.innerHTML = "";
 
@@ -325,11 +614,172 @@ async function loadSetLists() {
 
             card.innerHTML = `
                 <div class="card-title">
-                    ${setName}
+                    ${escapeHTML(setName)}
                 </div>
 
                 <div class="card-subtitle">
-                    ${sets[setName].length} songs
+                    ${sets[setName].length} song(s)
+                </div>
+            `;
+
+            card.onclick = () =>
+                openSet(setName);
+
+            container.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        container.innerHTML = `
+            <div class="error">
+                Couldn't load set lists.
+                <br><br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+    }
+}
+
+
+/* =========================================================
+   OPEN SET
+   ========================================================= */
+
+function openSet(setName) {
+
+    const container =
+        document.getElementById("setDetailContainer");
+
+    const setSongs = [...sets[setName]];
+
+    setSongs.sort(
+        (a, b) =>
+            Number(a.position || 0) -
+            Number(b.position || 0)
+    );
+
+
+    container.innerHTML = `
+        <h2>${escapeHTML(setName)}</h2>
+    `;
+
+
+    setSongs.forEach(item => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+            <div class="song-row">
+
+                <div class="position">
+                    ${escapeHTML(item.position)}
+                </div>
+
+                <div style="flex:1">
+                    <div class="card-title">
+                        ${escapeHTML(item.song)}
+                    </div>
+                </div>
+
+            </div>
+        `;
+
+
+        card.onclick = () => {
+
+            const song = songs.find(
+                s =>
+                    s["Song Name"]
+                    .toLowerCase()
+                    ===
+                    item.song.toLowerCase()
+            );
+
+            if (song) {
+                openSong(song);
+            } else {
+                alert(
+                    "Song not found in Songs sheet: " +
+                    item.song
+                );
+            }
+        };
+
+
+        container.appendChild(card);
+
+    });
+
+
+    showPage("setDetail");
+}
+
+
+/* =========================================================
+   GIGS
+   ========================================================= */
+
+async function loadGigs() {
+
+    const container =
+        document.getElementById("gigsContainer");
+
+    try {
+
+        const gigs = await getSheet(GIGS_GID);
+
+        container.innerHTML = "";
+
+        if (!gigs.length) {
+
+            container.innerHTML =
+                "<div class='small'>No gigs found.</div>";
+
+            return;
+        }
+
+
+        gigs.forEach(gig => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "card";
+
+            card.innerHTML = `
+
+                <div class="card-title">
+                    ${escapeHTML(gig["Event"])}
+                </div>
+
+                <div class="card-subtitle">
+
+                    ${escapeHTML(gig["Venue"])}
+                    •
+                    ${escapeHTML(gig["Date"])}
+
+                </div>
+
+                <div class="small"
+                     style="margin-top:12px;">
+
+                    Set:
+                    ${escapeHTML(gig["Set Time"])}
+                    <br>
+
+                    Load in:
+                    ${escapeHTML(gig["Load In Time"])}
+                    <br>
+
+                    Soundcheck:
+                    ${escapeHTML(gig["Soundcheck Time"])}
+                    •
+                    ${escapeHTML(gig["Soundcheck Type"])}
+
                 </div>
             `;
 
@@ -339,25 +789,106 @@ async function loadSetLists() {
 
     } catch (error) {
 
-        console.error(error);
-
         container.innerHTML = `
-            <div class="card">
-                <div class="card-title">
-                    Couldn't load set lists
-                </div>
-
-                <div class="card-subtitle">
-                    Check the Google Sheet connection.
-                </div>
+            <div class="error">
+                Couldn't load gigs.
+                <br><br>
+                ${escapeHTML(error.message)}
             </div>
         `;
-
     }
-
 }
 
-loadSetLists();
+
+/* =========================================================
+   GOOGLE DRIVE AUDIO
+   ========================================================= */
+
+function convertDriveLink(url) {
+
+    if (!url) return "";
+
+    const match =
+        url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+
+    if (match) {
+
+        return "https://drive.google.com/uc?export=download&id="
+            + match[1];
+    }
+
+    return url;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function showPage(pageId) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
+
+
+    document
+        .getElementById(pageId)
+        .classList.add("active");
+
+
+    document
+        .querySelectorAll("nav button")
+        .forEach(button => {
+            button.classList.remove("active");
+        });
+
+
+    if (pageId === "songs" ||
+        pageId === "songDetail") {
+
+        document
+            .getElementById("navSongs")
+            .classList.add("active");
+    }
+
+
+    if (pageId === "sets" ||
+        pageId === "setDetail") {
+
+        document
+            .getElementById("navSets")
+            .classList.add("active");
+    }
+
+
+    if (pageId === "gigs") {
+
+        document
+            .getElementById("navGigs")
+            .classList.add("active");
+    }
+}
+
+
+/* =========================================================
+   START APP
+   ========================================================= */
+
+async function startApp() {
+
+    await loadSongs();
+
+    await loadSets();
+
+    await loadGigs();
+}
+
+
+startApp();
+
 </script>
 
 </body>
