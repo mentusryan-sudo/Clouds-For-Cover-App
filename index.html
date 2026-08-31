@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Clouds For Cover</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0d0d12;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    text-align: center;
+    padding: 30px 20px 20px;
+    border-bottom: 1px solid #292932;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+main {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    padding-bottom: 100px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #17171e;
+    border: 1px solid #292932;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.card:hover {
+    background: #1d1d25;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-subtitle {
+    color: #888;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background: #121218;
+    border-top: 1px solid #292932;
+
+    display: flex;
+    justify-content: center;
+}
+
+.bottom-nav button {
+    flex: 1;
+    max-width: 230px;
+
+    background: none;
+    border: none;
+
+    color: #888;
+
+    padding: 12px 5px 14px;
+
+    font-size: 12px;
+}
+
+.bottom-nav button.active {
+    color: white;
+}
+
+.icon {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        CLOUDS FOR COVER
+    </div>
+
+    <div class="subtitle">
+        BAND APP
+    </div>
+
+</header>
+
+
+<main>
+
+    <!-- SET LISTS -->
+
+    <section id="sets" class="page active">
+
+        <h1>Set Lists</h1>
+
+        <div class="card">
+
+            <div class="card-title">
+                30 Minutes
+            </div>
+
+            <div class="card-subtitle">
+                Set list
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-title">
+                45 Minutes
+            </div>
+
+            <div class="card-subtitle">
+                Set list
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- GIGS -->
+
+    <section id="gigs" class="page">
+
+        <h1>Gigs</h1>
+
+        <div class="card">
+
+            <div class="card-title">
+                Clouds Collective
+            </div>
+
+            <div class="card-subtitle">
+                SixTrees • 01/10/2026
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SONGS -->
+
+    <section id="songs" class="page">
+
+        <h1>Songs</h1>
+
+        <div class="card">
+
+            <div class="card-title">
+                All Falls Down
+            </div>
+
+            <div class="card-subtitle">
+                Song
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <button
+        class="active"
+        onclick="showPage('sets', this)"
+    >
+
+        <span class="icon">📋</span>
+
+        Set Lists
+
+    </button>
+
+
+    <button
+        onclick="showPage('gigs', this)"
+    >
+
+        <span class="icon">🎤</span>
+
+        Gigs
+
+    </button>
+
+
+    <button
+        onclick="showPage('songs', this)"
+    >
+
+        <span class="icon">🎵</span>
+
+        Songs
+
+    </button>
+
+</nav>
+
+
+<script>
+
+function showPage(pageId, button) {
+
+    document
+        .querySelectorAll('.page')
+        .forEach(page => {
+            page.classList.remove('active');
+        });
+
+
+    document
+        .getElementById(pageId)
+        .classList.add('active');
+
+
+    document
+        .querySelectorAll('.bottom-nav button')
+        .forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+
+    button.classList.add('active');
+
+}
+
+</script>
+
+</body>
+</html>
