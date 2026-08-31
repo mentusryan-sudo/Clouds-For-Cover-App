@@ -265,7 +265,100 @@ function showPage(pageId, button) {
     button.classList.add('active');
 
 }
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhcJJJ1Qi3FaPH3NAFubdhHOffV3OPBDuEAS-Libsg6zhtsKiAMfJI0Zx-62e7SZmNmr8r-TPF_5KF/pub?output=csv";
 
+async function loadSetLists() {
+
+    const container = document.getElementById("setListContainer");
+
+    try {
+
+        const response = await fetch(SHEET_URL);
+
+        if (!response.ok) {
+            throw new Error("Could not load Google Sheet");
+        }
+
+        const csv = await response.text();
+
+        const rows = csv
+            .trim()
+            .split("\n")
+            .map(row => row.split(","));
+
+        const headers = rows[0].map(h => h.trim().toLowerCase());
+
+        const setIndex = headers.indexOf("set");
+        const positionIndex = headers.indexOf("position");
+        const songIndex = headers.indexOf("song");
+
+        if (setIndex === -1 || songIndex === -1) {
+            throw new Error("Set sheet columns not found");
+        }
+
+        const sets = {};
+
+        rows.slice(1).forEach(row => {
+
+            const setName = row[setIndex]?.trim();
+            const song = row[songIndex]?.trim();
+
+            if (!setName || !song) return;
+
+            if (!sets[setName]) {
+                sets[setName] = [];
+            }
+
+            sets[setName].push({
+                position: row[positionIndex]?.trim() || "",
+                song: song
+            });
+
+        });
+
+        container.innerHTML = "";
+
+        Object.keys(sets).forEach(setName => {
+
+            const card = document.createElement("div");
+
+            card.className = "card";
+
+            card.innerHTML = `
+                <div class="card-title">
+                    ${setName}
+                </div>
+
+                <div class="card-subtitle">
+                    ${sets[setName].length} songs
+                </div>
+            `;
+
+            container.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="card">
+                <div class="card-title">
+                    Couldn't load set lists
+                </div>
+
+                <div class="card-subtitle">
+                    Check the Google Sheet connection.
+                </div>
+            </div>
+        `;
+
+    }
+
+}
+
+loadSetLists();
 </script>
 
 </body>
