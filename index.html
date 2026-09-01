@@ -93,7 +93,38 @@ h1 {
     align-items: center;
     gap: 15px;
 }
+.song-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
 
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: inline-block;
+}
+.status-dot.new {
+    background: #3b82f6;
+}
+
+.status-dot.learning {
+    background: #facc15;
+}
+
+.status-dot.needs-work {
+    background: #ef4444;
+}
+
+.status-dot.gig-ready {
+    background: #ffffff;
+}
 .position {
     color: #888;
     min-width: 30px;
@@ -441,17 +472,24 @@ async function loadSongs() {
 
             const card = document.createElement("div");
 
-            card.className = "card";
-
             card.innerHTML = `
-                <div class="card-title">
-                    ${escapeHTML(song["Song Name"])}
-                </div>
+    <div class="song-info">
+        <div class="card-title">
+            ${escapeHTML(song["Song Name"])}
+        </div>
 
-                <div class="card-subtitle">
-                    ${escapeHTML(song["Artist"])}
-                </div>
-            `;
+        <div class="card-subtitle">
+            ${escapeHTML(song["Artist"])}
+        </div>
+    </div>
+
+    <div class="song-status">
+       <span class="status-dot ${String(song["Status"] || "NEW").toLowerCase().replace(/\s+/g, "-")}"></span>
+        <span class="status-text">
+            ${escapeHTML(song["Status"] || "NEW")}
+        </span>
+    </div>
+`;
 
             card.onclick = () => openSong(song);
 
