@@ -471,7 +471,8 @@ async function loadSongs() {
         songs.forEach(song => {
 
             const card = document.createElement("div");
-
+            
+card.className = "card";
             card.innerHTML = `
     <div class="song-row">
 
@@ -677,7 +678,6 @@ async function loadSets() {
 
             const card = document.createElement("div");
 card.className = "card";
-            card.className = "card";
 
             card.innerHTML = `
                 <div class="card-title">
