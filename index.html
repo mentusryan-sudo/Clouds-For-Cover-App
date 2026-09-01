@@ -473,21 +473,25 @@ async function loadSongs() {
             const card = document.createElement("div");
 
             card.innerHTML = `
-    <div class="song-info">
-        <div class="card-title">
-            ${escapeHTML(song["Song Name"])}
+    <div class="song-row">
+
+        <div class="song-info">
+            <div class="card-title">
+                ${escapeHTML(song["Song Name"])}
+            </div>
+
+            <div class="card-subtitle">
+                ${escapeHTML(song["Artist"])}
+            </div>
         </div>
 
-        <div class="card-subtitle">
-            ${escapeHTML(song["Artist"])}
+        <div class="song-status">
+            <span class="status-dot ${String(song["Status"] || "NEW").toLowerCase().replace(/\s+/g, "-")}"></span>
+            <span class="status-text">
+                ${escapeHTML(song["Status"] || "NEW")}
+            </span>
         </div>
-    </div>
 
-    <div class="song-status">
-       <span class="status-dot ${String(song["Status"] || "NEW").toLowerCase().replace(/\s+/g, "-")}"></span>
-        <span class="status-text">
-            ${escapeHTML(song["Status"] || "NEW")}
-        </span>
     </div>
 `;
 
