@@ -810,13 +810,9 @@ function convertDriveLink(url) {
 
     if (!url) return "";
 
-    const match =
-        url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-
-    if (match) {
-
-        return "https://drive.google.com/uc?export=download&id="
-            + match[1];
+    // Keep Quiet - Clouds For Cover
+    if (url.toLowerCase().includes("keep quiet")) {
+        return "https://mentusryan-sudo.github.io/Clouds-For-Cover-App/Keep%20Quiet%20-%20Clouds%20For%20Cover.mp3";
     }
 
     return url;
