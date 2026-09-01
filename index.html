@@ -492,9 +492,11 @@ function openSong(song) {
                     Audio
                 </div>
 
-                <audio controls style="width:100%; margin-top:10px;"
-                       src="${escapeHTML(audio)}">
-                </audio>
+                <a class="button"
+   href="${escapeHTML(song["Audio"])}"
+   target="_blank">
+    ▶️ Play Audio
+</a>
 
                 <br>
 
