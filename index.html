@@ -481,22 +481,19 @@ function openSong(song) {
     }
 
 
-    if (song["Audio"]) {
+if (song["Audio"]) {
 
-        const audio = convertDriveLink(song["Audio"]);
+    const audio = convertDriveLink(song["Audio"]);
 
-        html += `
-            <div class="detail">
+    html += `
+        <div class="detail">
 
-                <div class="info-label">
-                    Audio
-                </div>
+            <div class="info-label">
+                Audio
+            </div>
 
-                <a class="button"
-   href="${escapeHTML(song["Audio"])}"
-   target="_blank">
-    ▶️ Play Audio
-</a>
+            <audio controls style="width:100%; margin-top:10px;" src="${escapeHTML(audio)}">
+            </audio>
 
                 <br>
 
@@ -810,12 +807,12 @@ function convertDriveLink(url) {
 
     if (!url) return "";
 
-    // Keep Quiet - Clouds For Cover
-    if (url.toLowerCase().includes("keep quiet")) {
-        return "https://mentusryan-sudo.github.io/Clouds-For-Cover-App/Keep%20Quiet%20-%20Clouds%20For%20Cover.mp3";
+    if (url.startsWith("http")) {
+        return url;
     }
 
-    return url;
+    return "https://raw.githubusercontent.com/mentusryan-sudo/Clouds-For-Cover-App/main/"
+        + encodeURIComponent(url);
 }
 
 
